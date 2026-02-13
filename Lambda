@@ -13,10 +13,10 @@ def lambda_handler(event, context):
     """
     Lambda function to invoke Amazon Bedrock model and return response to API Gateway
     """
-    
+    print(event)
     try:
         # Extract prompt directly from event
-        input_text = event.get('prompt', 'What is your name')
+        input_text = json.loads(event['body'])['prompt'] 
         
         if not input_text:
             return {
@@ -37,6 +37,8 @@ def lambda_handler(event, context):
             'us.anthropic.claude-opus-4-20250514-v1:0'  # Cross-region inference profile
         )
         
+        print(input_text)
+
         # Prepare the request payload for Claude models
         request_body = {
             "anthropic_version": "bedrock-2023-05-31",
